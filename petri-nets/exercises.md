@@ -223,6 +223,17 @@ Yes, if we reach any state $(x,y,z,v)$ such that $v=\omega$ then $p_4$ is unboun
 No, the tree only indicates that we can reach states that have at least as many tokens as showed in those in the nodes at least in the case of $\omega$.
 
 # Exercise 8
+~~~mermaid
+graph LR;
+    p((p \n *))
+    t1(t1)
+    t2(t2)
+    t3(t3)
+
+    t1 --> p
+    p -->|2| t2
+    p --o t3
+~~~
 
 # Exercise 9
 ~~~mermaid
@@ -255,3 +266,202 @@ graph LR;
     p --> t1 --> p
     p -->|2| t2 -->|2| p
 ~~~
+
+# Exercise 11
+### a
+Do not really know what he means by deadlock-freedom. If he means what we talked about in class then (f) can introduce deadlocks.
+
+### b
+It should be mentioned that none of the places removed cannot have tokens in the during the reduction process.
+
+(a) should not introduce any problem.
+
+(b) should not be a problem as the top token can not be action that brings the net to the initial marking, as it would contradict the fact that the place cannot have tokens in the initial marking.
+
+(c) should not be a problem one of the two places is redundant, semantically.
+
+(d) the two actions are equivalent semantically.
+
+(e) The place is redundant.
+
+(f) The action can be removed in this case, as it does not change the marking.
+
+# Exercise 12
+$1 = 0 - t_2$
+
+$0 = 1 + 2t_2 - 4t_3$
+
+$0 = 1 + t_2$
+
+$0 = 0 + t_3 - 3t_4$
+
+$t_1, t_2, t_3, t_4 \geq 0$
+
+# Exercise 13
+### a
+Probably as we can say that a marking is definitely not reachable, so it is likely that we can do the same for coverability if we change the $=$ to $\leq$.
+
+### b
+
+
+### c
+
+# Exercise 14
+~~~mermaid
+graph TD;
+    i((input \n *))
+    p1((p1))
+    p2((p2))
+    p3((p3))
+    o((out))
+
+    t1(t1)
+    t2(t2)
+    t3(t3)
+    t4(t4)
+    t5(t5)
+    t6(t6)
+
+    i --> t1
+    t1 --> p1
+    t1 --> p2
+
+    p1 --> t2
+    t2 --> p3
+
+    p3 --> t3
+    t3 --> p1
+
+    p2 --> t4
+    t4 --> p3
+
+    p2 --> t5
+    t5 --> p3
+
+    p1 --> t6
+    p3 --> t6
+    t6 --> o
+~~~
+
+Use rule (c)
+
+~~~mermaid
+graph TD;
+    i((input \n *))
+    p1((p1))
+    p2((p2))
+    p3((p3))
+    o((out))
+
+    t1(t1)
+    t2(t2)
+    t3(t3)
+    t4(t4/t5)
+    t6(t6)
+
+    i --> t1
+    t1 --> p1
+    t1 --> p2
+
+    p1 --> t2
+    t2 --> p3
+
+    p3 --> t3
+    t3 --> p1
+
+    p2 --> t4
+    t4 --> p3
+
+    p1 --> t6
+    p3 --> t6
+    t6 --> o
+~~~
+
+Use rule (a)
+
+~~~mermaid
+graph TD;
+    i((input \n *))
+    p1((p1))
+    p3((p3))
+    o((out))
+
+    t1(t1)
+    t2(t2)
+    t3(t3)
+    t6(t6)
+
+    i --> t1
+    t1 --> p1
+    t1 --> p3
+
+    p1 --> t2
+    t2 --> p3
+
+    p3 --> t3
+    t3 --> p1
+
+    p1 --> t6
+    p3 --> t6
+    t6 --> o
+~~~
+
+coverability graph
+
+~~~mermaid
+graph TD;
+    p1(i)
+    p2(p1 + p3)
+    p3(o)
+    p4(2p3)
+    p5(2p1)
+
+    p1 -->|t1| p2
+    p2 -->|t6| p3
+    p2 -->|t2| p4
+    p4 -->|t3| p2
+    p2 -->|t3| p5
+    p5 -->|t2| p2
+~~~
+
+We add the fresh transition $t$.
+
+~~~mermaid
+graph TD;
+    i((input \n *))
+    p1((p1))
+    p3((p3))
+    o((out))
+
+    t1(t1)
+    t2(t2)
+    t3(t3)
+    t6(t6)
+    t(t)
+
+    o --> t
+    t --> i
+
+    i --> t1
+    t1 --> p1
+    t1 --> p3
+
+    p1 --> t2
+    t2 --> p3
+
+    p3 --> t3
+    t3 --> p1
+
+    p1 --> t6
+    p3 --> t6
+    t6 --> o
+~~~
+
+We will now argue that this new net is both live and bounded.
+
+# Exercise 15
+### a
+No, as this would break the second condition is the definition a soundness, it would be possible to reach a marking where the out place has a token, but all other places are not empty.
+
+### b
+Yes, it would we can simply modify any transition adding tokens to the out place such that all other places should be empty. Of course there should also be transitions necessary to empty any possibly unbounded place.
